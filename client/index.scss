@@ -1,0 +1,42 @@
+// Import Ionic icons
+@import '../.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
+
+/*******************************************************
+// Sass Features
+*******************************************************/
+// @import "client/styles/variables", "client/styles/functions", "client/styles/mixins", "client/styles/placeholders";
+
+
+/*******************************************************
+// The Styles
+*******************************************************/
+// Base styles
+// @import "client/styles/common/base";
+
+
+/*******************************************************
+// Layout Elements
+*******************************************************/
+// - Layout = major components, e.g., header, footer etc.
+// - Module = minor components, e.g., navigation bar, callout, widgets etc.
+// - State  = a state is something that augments + overrides all other styles, e.g., success or error state
+// @import "client/styles/components/layout"; 
+
+// Modules
+// @import "client/styles/components/module";
+
+@import "client/tasks/tasks.scss";
+@import "client/timer/timer.scss";
+@import "client/loading/loading.scss";
+
+
+// @import "client/styles/ie.scss";
+
+// State
+// @import "client/styles/components/state";
+
+
+/*******************************************************
+// Print Styles
+*******************************************************/
+// @import "client/styles/print";

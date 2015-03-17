@@ -5,6 +5,8 @@
 # but you can also edit it by hand.
 
 meteor-platform
-autopublish
-insecure
 iron:router
+brentjanderson:buzz
+fourseven:scss
+meteoric:ionicons-sass
+msavin:mongol

@@ -1,0 +1,30 @@
+.clock {
+    width: 250px;
+    height: 250px;
+    display: block;
+    position: relative;
+    border-radius: 50%;
+    background-color: $primary-color;
+    background-image:
+        linear-gradient(270deg, transparent 50%, $primary-color 50%),
+        linear-gradient(90deg, white 50%, transparent 50%);
+    border: 1px solid $primary-color;
+    float: left;
+    margin: 2em;
+}
+.block {
+    position: absolute;
+    background: #fff; /* fff  DA8796*/ 
+    width: 240px;
+    height: 240px;
+    display: block;
+    border-radius: 50%;
+    top: 5px;
+    left: 5px;
+}
+#time {
+  font-size: 3em;
+  position: absolute;
+  top: 30%;
+  left: 28%;
+}

@@ -1,0 +1,20 @@
+<template name="taskList">
+  <ul>
+    {{#each task}}
+      <li class="task {{selectedClass}}">{{name}}: {{sessionsCompleted}}/{{sessions}}</li>
+      
+      {{#if selectedClass}}
+        Interuptions: {{interuptions}}
+        <!-- <input type="button" class="increment" value="+"> -->
+        <br/>
+        <button class="icon ion-ios-plus-empty increment"></button>
+        <button class="icon ion-ios-minus-empty decrement"></button>
+        <button class="icon ion-ios-trash-outline delete"></button>
+        <button class="icon ion-ios-checkmark-empty complete"></button>
+<!--         <input type="button" class="decrement" value="-">
+        <input type="button" class="delete" value="Delete">
+        <input type="button" class="complete" value="Complete"> -->
+      {{/if}}
+    {{/each}}
+  </ul>
+</template>
