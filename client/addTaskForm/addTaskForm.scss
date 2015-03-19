@@ -1,0 +1,13 @@
+.add-task {
+  text-align: center;
+}
+
+input {
+  font-family: $primary-fonts;
+  font-size: $font-size-base/1.25;
+  font-weight: $font-thin;
+  width: 35%;
+  &[type="submit"] {
+    width: 17.5%;
+  }
+}

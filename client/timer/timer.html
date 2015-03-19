@@ -1,11 +1,6 @@
 <template name="timer">
   <div class="clock degree" style="{{clockElementStyle}}">
-  <span class="block"></span>
+    <span class="block" style="{{blockElementStyle}}"></span>
     <h1 id="time">{{formatTimer time}}</h1>
   </div>
-  
-  <input type="button" class="startReset" value="Start">
-  {{#if isStarted}}
-    <input type="button" class="pause" value="Pause">
-  {{/if}}
 </template>

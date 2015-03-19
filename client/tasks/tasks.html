@@ -1,20 +1,31 @@
 <template name="taskList">
+  <h2 class="task-header">Task History</h2>
   <ul>
     {{#each task}}
-      <li class="task {{selectedClass}}">{{name}}: {{sessionsCompleted}}/{{sessions}}</li>
-      
-      {{#if selectedClass}}
-        Interuptions: {{interuptions}}
-        <!-- <input type="button" class="increment" value="+"> -->
-        <br/>
-        <button class="icon ion-ios-plus-empty increment"></button>
-        <button class="icon ion-ios-minus-empty decrement"></button>
-        <button class="icon ion-ios-trash-outline delete"></button>
-        <button class="icon ion-ios-checkmark-empty complete"></button>
-<!--         <input type="button" class="decrement" value="-">
-        <input type="button" class="delete" value="Delete">
-        <input type="button" class="complete" value="Complete"> -->
-      {{/if}}
+      <li class="task {{selectedClass}}">
+        <div class="timer-buttons">
+          <!-- <input type="button" class="startReset" value="Start"> -->
+          <button class="icon {{playPauseClass}} playPause"></button>
+          <button class="icon ion-ios-refresh-empty reset"></button>
+          <!-- {{#if isStarted}}
+            <input type="button" class="pause" value="Pause">
+          {{/if}} -->
+        </div>
+
+        <div class="task-name">
+          {{name}}: {{sessionsCompleted}}/{{sessions}}
+        </div>
+
+        {{#if selectedClass}}
+          <div class="task-options">
+            Interuptions: {{interuptions}}
+            <button class="icon ion-ios-plus-empty increment"></button>
+            <button class="icon ion-ios-minus-empty decrement"></button>
+            <button class="icon ion-ios-trash-outline delete"></button>
+            <button class="icon ion-ios-checkmark-empty complete"></button>
+          </div>
+        {{/if}}
+      </li>
     {{/each}}
   </ul>
 </template>

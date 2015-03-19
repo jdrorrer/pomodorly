@@ -1,25 +1,69 @@
 $primary-color: #de4f4f;
-$secondary-color: #27272b;
+$secondary-color: #80bd01; // #4081EA
+$tertiary-color: #efefef;
+$font-color: #27272b;
+
+$primary-fonts: 'Lato', sans-serif;
+$secondary-fonts: 'Droid Serif', serif;
+$logo-font: 'Pacifico';
+
+$font-size-base: 16px;
+$line-height-base: 1.5;
+
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 400;
+$font-bold: 700;
 
 .selected {
-  background-color: yellow;
+  background-color: $tertiary-color;
 }
 
-body {
-  background-color: #fff;
-  color: $secondary-color;
+.container {
+  margin: 0 auto;
+  width: 50%;
+}
+
+body { 
+  color: $font-color;
+  font-family: $primary-fonts;
+  font-size: $font-size-base;
+  font-weight: $font-light;
+  margin: 0;
+}
+
+header {
+  background: #fff top left url('/images/poly-bg.jpg') repeat-x;
+  display: block; 
+  height: 80px;
+  width: 100%;
+}
+
+.logo {
+  color: $primary-color;
+  font-family: $logo-font;
+  margin: 0;
+  padding: 1rem;
+}
+
+.task-header {
+  font-family: $primary-fonts;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: none;
+  outline: none;
 }
 
 input[type="text"] {
-  border: 1px solid $secondary-color;
-  /*border-radius: 3px;*/
+  border: 1px solid $tertiary-color;
   padding: 1rem;
 }
 
@@ -28,7 +72,6 @@ input[type="submit"],
 button {
   background-color: inherit;
   border: 1px solid $primary-color;
-  /*border-radius: 3px;*/
   color: $primary-color;
   padding: 1rem;
   transition: background-color 0.4s linear;
@@ -38,12 +81,34 @@ input[type="button"]:hover,
 input[type="submit"]:hover,
 button:hover {
   background-color: $primary-color;
+  border-color: $primary-color;
   color: #fff;
   cursor: pointer;
 }
 
+.task {
+  border-bottom: 1px solid $tertiary-color;
+  list-style: none;
+  padding: 1.5rem 0;
+  position: relative;
+}
+
+.task-name {
+  padding-left: 6rem;
+}
+
+.task-options {  
+  bottom: 0.75rem;
+  position: absolute;
+  right: 0.25rem;
+}
+
 .icon {
-  border: none;
-  font-size: 1.5rem;
-  padding: 0.25rem 0.75rem;
+  border: 1px solid;
+  border-radius: 50% 50%;
+  font-size: 1.25rem;
+  padding: 0.25rem 0.5rem;
+  vertical-align: middle;
+  width: 40px;
+  height: 40px;
 }

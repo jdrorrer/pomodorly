@@ -1,4 +1,12 @@
-// Import Ionic icons
+/*******************************************************
+// Google Fonts
+*******************************************************/
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,100italic,300italic,400italic|Droid+Serif:400,700,400italic|Pacifico);
+
+
+/*******************************************************
+// Ionic Icons
+*******************************************************/
 @import '../.meteor/local/build/programs/server/assets/packages/meteoric_ionicons-sass/ionicons';
 
 /*******************************************************
@@ -40,3 +48,5 @@
 // Print Styles
 *******************************************************/
 // @import "client/styles/print";
+
+@import "client/addTaskForm/addTaskForm.scss";
