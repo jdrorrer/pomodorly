@@ -35,7 +35,7 @@ body {
 header {
   background: #fff top left url('/images/poly-bg.jpg') repeat-x;
   display: block; 
-  height: 80px;
+  height: 65px;
   width: 100%;
 }
 
@@ -43,7 +43,7 @@ header {
   color: $primary-color;
   font-family: $logo-font;
   margin: 0;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 .task-header {
