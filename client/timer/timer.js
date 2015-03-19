@@ -10,60 +10,67 @@ var interval; // Initialize timer interval
 var isStarted, isPaused, onBreak = false;
 var pomoCount = 0; // Initialize pomodoro counter
 var ding = new buzz.sound('/sounds/ding.mp3');
+var pomoColor = '#de4f4f';
+var shortBreakColor = '#80bd01';
+var longBreakColor = '#4081EA';
 
 Session.set('time', secondsLeft); // Initialize time session variable
 Session.set('playPauseClass', 'ion-ios-play-outline play'); // initialize play button
 
-var clockUpdate = function(percent) {
-  var deg;
-  var totalTime;
+var setClockBackground = function(deg, bgColor, color) {
+  var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, '+bgColor+' 50%),linear-gradient(90deg, white 50%, transparent 50%);'
+                     + 'background-color: '+color+';'
+                     + 'border-color: '+color+';';
+  var blockElementBG = 'background-color: '+color+';';
+  Session.set('clockElementStyle', clockElementBG);
+  Session.set('blockElementStyle', blockElementBG);
+}
 
+var clockResetHelper = function(time, color) {
+  secondsLeft = time; // Reset timer based on pomodoro, short or long break time
+  Session.set('time', secondsLeft);
+  Session.set('playPauseClass', 'ion-ios-play-outline play');
+  // Reset clock background fill based on pomodoro, shor or long break time
+  setClockBackground(270, color, color);
+}
+
+var clockReset = function() {
+  if(onBreak) { // Time for a break, i.e. just finished a pomodoro
+    if(pomoCount == pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
+      clockResetHelper(longBreakTime, longBreakColor);
+      console.log('Pomodoro count: ' + pomoCount);
+    } else { // Not on long break, i.e. on short break
+      clockResetHelper(breakTime, shortBreakColor);
+      console.log('Pomodoro count: ' + pomoCount);
+    } 
+    Meteor.clearInterval(interval);   
+  } else { // Not on break, i.e. ready to start next pomodoro
+    clockResetHelper(pomoTime, pomoColor);
+    Meteor.clearInterval(interval);
+  }
+}
+
+var clockUpdateHelper = function(color, totalTime, percent) {
+  var deg;
+
+  if(percent<(totalTime/2)) { // different color timer for long breaks
+    deg = 90 + (360*percent/totalTime);
+    setClockBackground(deg, 'white', color);
+  } else if(percent>=(totalTime/2)) {
+    deg = -90 + (360*percent/totalTime);
+    setClockBackground(deg, color, color);
+  }
+}
+
+var clockUpdate = function(percent) {
   if(onBreak) { // Time for a short break
     if(pomoCount == pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
-      totalTime = longBreakTime;
-
-      if(percent<(totalTime/2)) { // different color timer for long breaks
-        deg = 90 + (360*percent/totalTime);
-        var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, white 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #4081EA;'
-                           + 'border-color: #4081EA;';
-        Session.set('clockElementStyle', clockElementBG);
-      } else if(percent>=(totalTime/2)) {
-        deg = -90 + (360*percent/totalTime);
-        var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, #4081EA 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #4081EA;'
-                           + 'border-color: #4081EA;';
-        Session.set('clockElementStyle', clockElementBG);
-      }
+      clockUpdateHelper(longBreakColor, longBreakTime, percent);
     } else { // Regular short break
-      totalTime = breakTime;
-
-      if(percent<(totalTime/2)) { // different color timer for short breaks
-        deg = 90 + (360*percent/totalTime);
-        var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, white 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #80bd01;'
-                           + 'border-color: #80bd01;';
-        Session.set('clockElementStyle', clockElementBG);
-      } else if(percent>=(totalTime/2)) {
-        deg = -90 + (360*percent/totalTime);
-        var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, #80bd01 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #80bd01;'
-                           + 'border-color: #80bd01;';
-        Session.set('clockElementStyle', clockElementBG);
-      }
-    }
-    
+      clockUpdateHelper(shortBreakColor, breakTime, percent);
+    }  
   } else { // Not on break means during a pomodoro
-    totalTime = pomoTime;
-    if(percent<(totalTime/2)) {
-      deg = 90 + (360*percent/totalTime);
-      var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, white 50%),linear-gradient(90deg, white 50%, transparent 50%)';
-      Session.set('clockElementStyle', clockElementBG);
-    } else if(percent>=(totalTime/2)) {
-      deg = -90 + (360*percent/totalTime);
-      var clockElementBG = 'background-image: linear-gradient('+deg+'deg, transparent 50%, #de4f4f 50%),linear-gradient(90deg, white 50%, transparent 50%)';
-      Session.set('clockElementStyle', clockElementBG);
-    }
+    clockUpdateHelper(pomoColor, pomoTime, percent);
   }
 };
 
@@ -86,57 +93,20 @@ var timeLeft = function() {
       var selectedTask = Session.get('selectedTask');
       Meteor.call('modifySessionsCompleted', selectedTask, 1);
       pomoCount += 1;
-
-      if(pomoCount == pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
-        secondsLeft = longBreakTime; // Reset timer to 15 minutes * 60 seconds
-        Session.set('time', secondsLeft);
-        console.log('Pomodoro count: ' + pomoCount);
-        Session.set('playPauseClass', 'ion-ios-play-outline play');
-
-        // Reset clock background fill for long break time
-        var clockElementBG = 'background-image: linear-gradient(270deg, transparent 50%, #4081EA 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #4081EA;'
-                           + 'border-color: #4081EA;';
-        var blockElementBG = 'background-color: #4081EA;';
-        Session.set('clockElementStyle', clockElementBG);
-        Session.set('blockElementStyle', blockElementBG);
-      } else { // Not on long break, i.e. on short break
-        secondsLeft = breakTime; // Reset timer to 5 minutes * 60 seconds
-        Session.set('time', secondsLeft);
-        Session.set('playPauseClass', 'ion-ios-play-outline play');
-        console.log('Pomodoro count: ' + pomoCount);
-
-        // Reset clock background fill for short break time
-        var clockElementBG = 'background-image: linear-gradient(270deg, transparent 50%, #80bd01 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #80bd01;'
-                           + 'border-color: #80bd01;';
-        var blockElementBG = 'background-color: #80bd01;';
-        Session.set('clockElementStyle', clockElementBG);
-        Session.set('blockElementStyle', blockElementBG);
-      } 
-
-      Meteor.clearInterval(interval);   
     } else { // Not on break, i.e. ready to start next pomodoro
-
       if(pomoCount == pomosBeforeLongBreak) { // Just finished taking a long break
         pomoCount = 0; // Reset pomodoro counter
         console.log('Pomodoro count after reset: ' + pomoCount);
       }
-
-      secondsLeft = pomoTime; // Reset timer to 25 minutes * 60 seconds
-      Session.set('time', secondsLeft);
-      Session.set('playPauseClass', 'ion-ios-play-outline play');
-      Meteor.clearInterval(interval);
-
-      // Reset clock background fill for pomodoro
-      var clockElementBG = 'background-image: linear-gradient(270deg, transparent 50%, #de4f4f 50%),linear-gradient(90deg, white 50%, transparent 50%)';
-      var blockElementBG = 'background-color: #de4f4f;';
-      Session.set('clockElementStyle', clockElementBG);
-      Session.set('blockElementStyle', blockElementBG);
     }
+    // Reset clock time, background color and play/pause button
+    clockReset();
   }
 };
 
+// ==================================
+// timer template helpers and events
+// ==================================
 Template.timer.helpers({
   time: function() {
     return Session.get('time');
@@ -154,6 +124,9 @@ Template.timer.helpers({
   }
 });
 
+// ====================================
+// taskList template helpers and events
+// ====================================
 Template.taskList.helpers({
   isStarted: function() {
     return Session.get('isStarted');
@@ -193,53 +166,7 @@ Template.taskList.events({
   },
   'click .reset': function(event) {
     isStarted = false;
-
-    if(onBreak) { // Time for a break
-      if(pomoCount == pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
-        secondsLeft = longBreakTime; // Reset timer to 15 minutes * 60 seconds
-        Session.set('time', secondsLeft);
-        console.log('Pomodoro count: ' + pomoCount);
-        Session.set('playPauseClass', 'ion-ios-play-outline play');
-
-        // Reset clock background fill for long break time
-        var clockElementBG = 'background-image: linear-gradient(270deg, transparent 50%, #4081EA 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #4081EA;'
-                           + 'border-color: #4081EA;';
-        var blockElementBG = 'background-color: #4081EA;';
-        Session.set('clockElementStyle', clockElementBG);
-        Session.set('blockElementStyle', blockElementBG);
-      } else { // Not on long break, i.e. on short break
-        secondsLeft = breakTime; // Reset timer to 5 minutes * 60 seconds
-        Session.set('time', secondsLeft);
-        Session.set('playPauseClass', 'ion-ios-play-outline play');
-        console.log('Pomodoro count: ' + pomoCount);
-
-        // Reset clock background fill for short break time
-        var clockElementBG = 'background-image: linear-gradient(270deg, transparent 50%, #80bd01 50%),linear-gradient(90deg, white 50%, transparent 50%);'
-                           + 'background-color: #80bd01;'
-                           + 'border-color: #80bd01;';
-        var blockElementBG = 'background-color: #80bd01;';
-        Session.set('clockElementStyle', clockElementBG);
-        Session.set('blockElementStyle', blockElementBG);
-      } 
-
-      Meteor.clearInterval(interval);   
-    } else { // Not on break, i.e. ready to start next pomodoro
-      if(pomoCount == pomosBeforeLongBreak) { // Just finished taking a long break
-        pomoCount = 0; // Reset pomodoro counter
-        console.log('Pomodoro count after reset: ' + pomoCount);
-      }
-
-      secondsLeft = pomoTime; // Reset timer to 25 minutes * 60 seconds
-      Session.set('time', secondsLeft);
-      Session.set('playPauseClass', 'ion-ios-play-outline play');
-      Meteor.clearInterval(interval);
-
-      // Reset clock background fill for pomodoro
-      var clockElementBG = 'background-image: linear-gradient(270deg, transparent 50%, #de4f4f 50%),linear-gradient(90deg, white 50%, transparent 50%)';
-      var blockElementBG = 'background-color: #de4f4f;';
-      Session.set('clockElementStyle', clockElementBG);
-      Session.set('blockElementStyle', blockElementBG);
-    }
+    // Reset clock time, background color and play/pause button
+    clockReset();
   }
 });
