@@ -1,0 +1,42 @@
+.at-form {
+  border: 1px solid $tertiary-color;
+  margin: 2rem auto;
+  text-align: center;
+  width: 40%;
+}
+
+.at-input {
+  clear: both;
+  display: block;
+  label {
+    float: left;
+    margin: 1.3rem 0;
+    padding-left: 2rem;
+    text-align: left;
+    width: 7rem;
+  }
+  input {
+    float: left;
+    margin: 0.5rem 0;
+    width: 19rem;
+  }
+ }
+
+ .at-btn {
+  clear: both;
+  display: block;
+  font-family: $primary-fonts;
+  font-size: $font-size-base/1.25;
+  font-weight: $font-light;
+  margin: 0 auto;
+  margin-top: 1rem;
+  width: 28rem;
+ }
+
+ .at-pwd {
+  clear: both;
+  display: block;
+  margin-left: 2rem;
+  margin-top: 5.5rem;
+  text-align: left;
+ }

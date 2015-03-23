@@ -34,7 +34,11 @@
 // @import "client/styles/components/module";
 
 @import "client/tasks/tasks.scss";
+@import "client/addTaskForm/addTaskForm.scss";
+@import "client/nav/nav.scss";
+@import "client/welcome/welcome.scss";
 @import "client/timer/timer.scss";
+@import "client/accounts/accounts.scss";
 @import "client/loading/loading.scss";
 
 
@@ -48,5 +52,3 @@
 // Print Styles
 *******************************************************/
 // @import "client/styles/print";
-
-@import "client/addTaskForm/addTaskForm.scss";

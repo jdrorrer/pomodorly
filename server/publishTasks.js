@@ -1,3 +1,4 @@
 Meteor.publish('theTasks', function() {
-  return Tasks.find();
+  var currentUserId = this.userId;
+  return Tasks.find({createdBy: currentUserId});
 });

@@ -31,12 +31,12 @@ Template.taskList.events({
     var selectedTask = Session.get('selectedTask');
     var doubleCheck = confirm("Are you sure you want to delete this task?");
 
+    Meteor.call('deleteTask', selectedTask, doubleCheck);
+    
     Meteor.subscribe('theTasks', function() {
       var taskName = Tasks.findOne({_id: selectedTask}).name;
       console.log('Deleted ' + taskName + ' from Tasks collection');
     });
-
-    Meteor.call('deleteTask', selectedTask, doubleCheck);
   },
   'click .complete': function() {
     var selectedTask = Session.get('selectedTask');

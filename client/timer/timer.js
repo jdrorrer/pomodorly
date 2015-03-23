@@ -1,6 +1,23 @@
 /* =========================
 // Pomorodo Timer
 ============================ */
+Timer = {
+  pomoTime: 5,
+  breakTime: 3,
+  longBreakTime: 7, // 15 minutes * 60 seconds
+  pomosBeforeLongBreak: 4,// Default 4 pomodoros before long break
+  secondsLeft: pomoTime, // Initialize at pomodoro time length
+  interval: null,
+  isStarted: false, 
+  isPaused: false, 
+  onBreak: false,
+  pomoCount: 0, // Initialize pomodoro counter
+  ding: new buzz.sound('/sounds/ding.mp3'),
+  pomoColor: '#de4f4f',
+  shortBreakColor: '#80bd01',
+  longBreakColor :'#4081EA'
+};
+
 var pomoTime = 5; // 25 minutes * 60 seconds
 var breakTime = 3; // 5 minutes * 60 seconds
 var longBreakTime = 7; // 15 minutes * 60 seconds
@@ -8,11 +25,27 @@ var pomosBeforeLongBreak = 4; // Default 4 pomodoros before long break
 var secondsLeft = pomoTime; // Initialize at pomodoro time length
 var interval; // Initialize timer interval
 var isStarted, isPaused, onBreak = false;
-var pomoCount = 0; // Initialize pomodoro counter
+// var pomoCount = 0; // Initialize pomodoro counter
 var ding = new buzz.sound('/sounds/ding.mp3');
 var pomoColor = '#de4f4f';
 var shortBreakColor = '#80bd01';
 var longBreakColor = '#4081EA';
+
+pomoCountDep = {
+  count: 0,
+  dep: new Tracker.Dependency, 
+  get: function () {
+    this.dep.depend(); //saves the Tracker.currentComputation
+    return this.count;
+  },
+  set: function (newValue) {
+    if(newValue !== this.count) {
+      this.count = newValue;
+      this.dep.changed(); //invalidates all dependent computations
+    }
+    return this.count;
+  }
+};
 
 Session.set('time', secondsLeft); // Initialize time session variable
 Session.set('playPauseClass', 'ion-ios-play-outline play'); // initialize play button
@@ -24,31 +57,35 @@ var setClockBackground = function(deg, bgColor, color) {
   var blockElementBG = 'background-color: '+color+';';
   Session.set('clockElementStyle', clockElementBG);
   Session.set('blockElementStyle', blockElementBG);
-}
+};
 
 var clockResetHelper = function(time, color) {
   secondsLeft = time; // Reset timer based on pomodoro, short or long break time
   Session.set('time', secondsLeft);
   Session.set('playPauseClass', 'ion-ios-play-outline play');
-  // Reset clock background fill based on pomodoro, shor or long break time
+  // Reset clock background fill based on pomodoro, short or long break time
   setClockBackground(270, color, color);
-}
+};
 
 var clockReset = function() {
-  if(onBreak) { // Time for a break, i.e. just finished a pomodoro
-    if(pomoCount == pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
-      clockResetHelper(longBreakTime, longBreakColor);
-      console.log('Pomodoro count: ' + pomoCount);
-    } else { // Not on long break, i.e. on short break
-      clockResetHelper(breakTime, shortBreakColor);
-      console.log('Pomodoro count: ' + pomoCount);
-    } 
-    Meteor.clearInterval(interval);   
-  } else { // Not on break, i.e. ready to start next pomodoro
-    clockResetHelper(pomoTime, pomoColor);
-    Meteor.clearInterval(interval);
-  }
-}
+  Tracker.autorun(function(c) {
+    var pomoCount = pomoCountDep.get();
+
+    if(onBreak) { // Time for a break, i.e. just finished a pomodoro
+      if(pomoCount >= pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
+        clockResetHelper(longBreakTime, longBreakColor);
+        console.log('Pomodoro count lb: ' + pomoCount);
+      } else { // Not on long break, i.e. on short break
+        clockResetHelper(breakTime, shortBreakColor);
+        console.log('Pomodoro count sb: ' + pomoCount);
+      } 
+    } else { // Not on break, i.e. ready to start next pomodoro
+      clockResetHelper(pomoTime, pomoColor);
+    }
+
+    c.stop();
+  });
+};
 
 var clockUpdateHelper = function(color, totalTime, percent) {
   var deg;
@@ -60,11 +97,13 @@ var clockUpdateHelper = function(color, totalTime, percent) {
     deg = -90 + (360*percent/totalTime);
     setClockBackground(deg, color, color);
   }
-}
+};
 
 var clockUpdate = function(percent) {
+  var pomoCount = pomoCountDep.get();
+ 
   if(onBreak) { // Time for a short break
-    if(pomoCount == pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
+    if(pomoCount >= pomosBeforeLongBreak) { // Take a long break after every 4 pomodoros
       clockUpdateHelper(longBreakColor, longBreakTime, percent);
     } else { // Regular short break
       clockUpdateHelper(shortBreakColor, breakTime, percent);
@@ -89,18 +128,40 @@ var timeLeft = function() {
     ding.play(); // Play ding sound at end of work sessions and breaks
     Meteor.clearInterval(interval);
 
-    if(onBreak) { // Time for a break, i.e. just finished a pomodoro
+    if(onBreak) { // Time for a break, i.e. just finished a pomodoro 
       var selectedTask = Session.get('selectedTask');
+      var pomoCount = pomoCountDep.get();
+
       Meteor.call('modifySessionsCompleted', selectedTask, 1);
-      pomoCount += 1;
+      Meteor.call('modifyPomoCount', 1, function(err, data) {
+        if(err) {
+          console.log(err);
+        } else {
+          pomoCountDep.set(data);
+          console.log(data);
+          
+          clockReset();
+        }
+      });
     } else { // Not on break, i.e. ready to start next pomodoro
-      if(pomoCount == pomosBeforeLongBreak) { // Just finished taking a long break
-        pomoCount = 0; // Reset pomodoro counter
-        console.log('Pomodoro count after reset: ' + pomoCount);
+      var pomoCount = pomoCountDep.get();
+      if(pomoCount >= pomosBeforeLongBreak) { // Just finished taking a long break
+        Meteor.call('resetPomoCount', function(err, data) { // Reset pomodoro counter
+          if(err) {
+            console.log(err);
+          } else {
+            pomoCountDep.set(data);
+            console.log(data);
+               
+            clockReset();
+            console.log('Pomodoro count after reset: ' + data);
+          }
+        }); 
       }
+      if(pomoCount < pomosBeforeLongBreak) { // Just finished a short break
+        clockReset();
+      } 
     }
-    // Reset clock time, background color and play/pause button
-    clockReset();
   }
 };
 

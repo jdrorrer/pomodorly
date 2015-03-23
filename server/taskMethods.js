@@ -1,12 +1,15 @@
  Meteor.methods({
   'addNewTask': function(taskName, numSessions, dateAdded) {
+    var currentUserId = Meteor.userId();
     Tasks.insert({
       name: taskName,
       sessions: Number(numSessions),
       sessionsCompleted: 0,
       interuptions: 0,
       date: dateAdded,
-      dateCompleted: null
+      dateCompleted: null,
+      createdBy: currentUserId,
+      status: 'active'
     });
   },
   'modifyInteruptions': function(selectedTask, incValue) {
@@ -21,6 +24,6 @@
     }
   },
   'completeTask': function(selectedTask, dateCompleted) {
-    Tasks.update(selectedTask, {$set: {dateCompleted: dateCompleted} }); 
+    Tasks.update(selectedTask, {$set: {dateCompleted: dateCompleted, status: 'complete'} }); 
   }
 });

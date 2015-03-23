@@ -32,20 +32,6 @@ body {
   margin: 0;
 }
 
-header {
-  background: #fff top left url('/images/poly-bg.jpg') repeat-x;
-  display: block; 
-  height: 65px;
-  width: 100%;
-}
-
-.logo {
-  color: $primary-color;
-  font-family: $logo-font;
-  margin: 0;
-  padding: 0.5rem 1rem;
-}
-
 .task-header {
   font-family: $primary-fonts;
 }
@@ -62,7 +48,9 @@ button:focus {
   outline: none;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   border: 1px solid $tertiary-color;
   padding: 1rem;
 }
@@ -70,7 +58,7 @@ input[type="text"] {
 input[type="button"], 
 input[type="submit"],
 button {
-  background-color: inherit;
+  background-color: transparent;
   border: 1px solid $primary-color;
   color: $primary-color;
   padding: 1rem;
