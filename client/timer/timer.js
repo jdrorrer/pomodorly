@@ -133,6 +133,7 @@ var timeLeft = function() {
       var pomoCount = pomoCountDep.get();
 
       Meteor.call('modifySessionsCompleted', selectedTask, 1);
+      Meteor.call('completeSession', selectedTask);
       Meteor.call('modifyPomoCount', 1, function(err, data) {
         if(err) {
           console.log(err);

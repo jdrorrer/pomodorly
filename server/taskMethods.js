@@ -12,7 +12,7 @@
       status: 'active'
     });
   },
-  'modifyInteruptions': function(selectedTask, incValue) {
+  'modifyInteruptions': function(selectedTask, incValue) {  
     Tasks.update(selectedTask, {$inc: {interuptions: incValue} });
   },
   'modifySessionsCompleted': function(selectedTask, incValue) {

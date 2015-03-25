@@ -14,3 +14,9 @@ accounts-password
 accounts-ui
 useraccounts:core
 useraccounts:unstyled
+d3
+underscore
+mrt:moment
+meteorhacks:aggregate
+meteorhacks:collection-utils
+mongo-livedata
