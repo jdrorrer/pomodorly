@@ -94,9 +94,17 @@ Meteor.startup(function() {
   timeLeft = function() {
     // Continue to countdown as long as time remains
     if(Timer.isStarted && Session.get('secondsLeft') > 0) {
-      // console.log(Tracker.active);
-      Session.set('secondsLeft', Session.get('secondsLeft') - 1);
+      Timer.now = new Date();
+      var elapsedTime = (Timer.now.getTime() - Timer.before.getTime());
+    
+      if(elapsedTime > Timer.delay) {
+        Session.set('secondsLeft', Session.get('secondsLeft') - Math.floor(elapsedTime/Timer.delay));
+      } else {
+        Session.set('secondsLeft', Session.get('secondsLeft') - 1);
+      }
+
       clockUpdate(Session.get('secondsLeft'));
+      Timer.before = new Date();
     }
 
     if(Session.equals('secondsLeft', 0)) { // Pomodoro or break completed

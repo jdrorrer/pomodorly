@@ -66,6 +66,7 @@ Template.taskList.events({
     Meteor.call('completeTask', selectedTask, dateCompleted);
   },
   'click .play': function(event) {
+    Timer.before = new Date();
     Timer.isStarted = true;
     Session.set('isStarted', Timer.isStarted);
     Timer.isPaused = false;
