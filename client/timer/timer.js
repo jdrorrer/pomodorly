@@ -2,9 +2,9 @@
 // Pomorodo Timer
 ============================ */
 Meteor.startup(function() {
-  var pomoTime = 5; // 25 minutes * 60 seconds
-  var breakTime = 3; // 5 minutes * 60 seconds
-  var longBreakTime = 7; // 15 minutes * 60 seconds
+  var pomoTime = 25 * 60; // 25 minutes * 60 seconds
+  var breakTime = 5 * 60; // 5 minutes * 60 seconds
+  var longBreakTime = 15 * 60; // 15 minutes * 60 seconds
   var pomosBeforeLongBreak = 4; // Default 4 pomodoros before long break
   var ding = new buzz.sound('/sounds/ding.mp3');
   var pomoColor = '#de4f4f';
