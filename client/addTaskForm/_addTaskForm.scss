@@ -1,0 +1,49 @@
+.add-task {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  form {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.txt-add-task {
+    font-family: $primary-fonts;
+    font-size: $font-size-base/1.25;
+    font-weight: $font-light;
+    margin-bottom: $font-size-base/2;
+    margin-left: 0;
+    margin-right: 0;
+    width: 38%;
+
+    @include respond-min(wide) {
+      width: 30%;
+      margin-bottom: 0;
+    }
+  }
+  
+.btn-add-task {
+    clear: both;
+    font-family: $primary-fonts;
+    font-size: $font-size-base/1.25;
+    font-weight: $font-light;
+    margin-top: -3px;
+    left: 0;
+    // position: absolute;
+    text-align: center;
+    width: 100%;
+    
+    @include respond-min(mid) {
+      left: 5%;
+      width: 90%;
+    }
+
+    @include respond-min(wide) {
+      left: 70%;
+      top: 0;
+      width: 17.5%;
+    }
+  }

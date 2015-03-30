@@ -1,0 +1,76 @@
+.at-form {
+  border: 1px solid $tertiary-color;
+  margin: 2rem auto;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  text-align: center;
+  width: 90%;
+
+  @include respond-min(mid) {
+    width: 70%;
+  }
+
+  @include respond-min(wide) {
+    width: 50%;
+  }
+
+  @include respond-min(huge) {
+    width: 40%;
+  }
+}
+
+#at-pwd-form {
+  margin: 0 auto;
+}
+
+.at-input {
+  clear: both;
+  // display: block;
+  margin: 0 auto;
+  label {
+    float: left;
+    margin: 1.3rem 0;
+    padding-left: 1rem;
+    text-align: left;
+    width: 5rem;
+    @include respond-min(mid) {
+      padding-left: 2rem;
+      width: 7rem;
+    }
+  }
+  input {
+    float: left;
+    margin: 0.5rem 0;
+    width: 12rem;
+    @include respond-min(mid) {
+      width: 19rem;
+    }
+  }
+}
+
+.at-btn {
+  clear: both;
+  display: block;
+  font-family: $primary-fonts;
+  font-size: $font-size-base/1.25;
+  font-weight: $font-light;
+  margin: 0 auto;
+  margin-top: 1rem;
+  width: 100%;
+
+  @include respond-min(narrow) {
+    width: 28rem;
+  }
+}
+
+.at-pwd {
+  clear: both;
+  display: block;
+  margin-left: 1rem;
+  margin-top: 5.5rem;
+  text-align: left;
+  @include respond-min(narrow) {
+    margin-left: 2rem;
+    text-align: center;
+  }
+}

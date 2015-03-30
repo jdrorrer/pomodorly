@@ -22,18 +22,48 @@
   animation-timing-function: ease-in;
   animation-duration: 1s;
 
+  @include respond-min(mid) {
+    line-height: 200px;
+    margin-top: -170px;
+  }
+
   h1 {
-    font-size: 5rem;
+    font-size: 1.75rem;
     font-family: $primary-fonts;
     font-weight: $font-light;
+    
+    @include respond-min(xs) {
+      font-size: 2rem;
+    }
+
+    @include respond-min(mid) {
+      font-size: 4rem;
+    }
+
+    @include respond-min(wide) {
+      font-size: 5rem;
+    }
   }
   h4 {
-    font-size: 2rem;
+    font-size: 1rem;
     font-family: $primary-fonts;
-    font-weight: $font-thin;   
+    font-weight: $font-light;   
     line-height: 0;
     margin-top: -85px;
     top: 0;
+
+    @include respond-min(xs) {
+      font-size: 1rem;
+    }
+
+    @include respond-min(mid) {
+      font-size: 1.5rem;
+      font-weight: $font-thin; 
+    }
+
+    @include respond-min(wide) {
+      font-size: 2rem;
+    }
   }
 }
 

@@ -1,0 +1,86 @@
+/*******************************************************
+// Base Styles
+*******************************************************/
+html, 
+body { 
+  color: $font-color;
+  font-family: $primary-fonts;
+  font-size: $font-size-base;
+  font-weight: $font-light;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $quaternary-color;
+  &:visited {
+    color: $quaternary-color;
+  }
+}
+
+ul {
+  clear: left;
+  margin: 0;
+  padding: 0;
+  padding-bottom: $font-size-base*2;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  border: 1px solid $tertiary-color;
+  padding: 1rem;
+}
+
+input[type="button"], 
+input[type="submit"],
+button {
+  background-color: transparent;
+  border: 1px solid $primary-color;
+  color: $primary-color;
+  padding: 1rem;
+  transition: background-color 0.4s linear;
+}
+
+input[type="button"]:hover, 
+input[type="submit"]:hover,
+button:hover {
+  background-color: $primary-color;
+  border-color: $primary-color;
+  color: #fff;
+  cursor: pointer;
+}
+
+// Remove default select styling
+select {
+    width: 100%;
+
+    border: none;
+    border-radius: none;
+    
+    background: transparent;
+    background-image: none;
+
+    text-indent: 0.01px;
+    text-overflow: '';
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;  
+    box-shadow: none;
+  
+    option[disabled] {
+      display: none;
+    }
+    &:focus {
+      outline: none;
+    }
+  }

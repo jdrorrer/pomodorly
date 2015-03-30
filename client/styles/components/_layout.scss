@@ -1,0 +1,27 @@
+/*******************************************************
+// Layout Styles
+*******************************************************/
+
+#wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+#content {
+  padding-bottom: 65px;
+}
+
+.container {
+  margin: 0 auto;
+  min-height: 100%;
+  position: relative;
+  width: 90%;
+  
+  @include respond-min(mid) {
+    width: 70%;
+  }
+
+  @include respond-min(wide) {
+    width: 50%;
+  }
+}

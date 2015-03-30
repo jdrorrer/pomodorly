@@ -1,0 +1,61 @@
+/*******************************************************
+// Variables
+*******************************************************/
+
+// Color Scheme
+// =============
+$primary-color: #de4f4f;
+$secondary-color: #80bd01; 
+$tertiary-color: #efefef;
+$quaternary-color: #4081EA;
+$font-color: #27272b;
+
+
+// Base Sizes
+// ==========
+
+// Included shorthands as these may be used a lot.
+$font-size-base: 12px;
+$line-height-base: 1.34;
+$base-fs: $font-size-base;
+$base-lh: $line-height-base;
+
+@include respond-min(mid) {
+  $font-size-base: 16px;
+  $line-height-base: 1.5;
+  $base-fs: $font-size-base;
+  $base-lh: $line-height-base;
+}
+
+
+// Font Stacks
+// ===========
+
+$primary-fonts: 'Lato', sans-serif;
+$secondary-fonts: 'Droid Serif', serif;
+$logo-font: 'Pacifico';
+
+
+// Font Weights
+// ============
+
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 400;
+$font-bold: 700;
+
+
+// Breakpoints
+// ===========
+
+$breakpoint-extra-small: 28em;
+$breakpoint-narrow: 35em;
+$breakpoint-mid: 48em;
+$breakpoint-wide: 60em;
+$breakpoint-huge: 100em;
+
+$bp-xs: $breakpoint-extra-small;
+$bp-narrow: $breakpoint-narrow;
+$bp-mid: $breakpoint-mid;
+$bp-wide: $breakpoint-wide;
+$bp-huge: $breakpoint-huge;

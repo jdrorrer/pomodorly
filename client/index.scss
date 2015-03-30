@@ -12,14 +12,16 @@
 /*******************************************************
 // Sass Features
 *******************************************************/
-// @import "client/styles/variables", "client/styles/functions", "client/styles/mixins", "client/styles/placeholders";
+@import "client/styles/variables.scss";
+@import "client/styles/functions.scss";
+@import "client/styles/mixins.scss";
 
 
 /*******************************************************
 // The Styles
 *******************************************************/
 // Base styles
-// @import "client/styles/common/base";
+@import "client/styles/common/base.scss";
 
 
 /*******************************************************
@@ -28,7 +30,7 @@
 // - Layout = major components, e.g., header, footer etc.
 // - Module = minor components, e.g., navigation bar, callout, widgets etc.
 // - State  = a state is something that augments + overrides all other styles, e.g., success or error state
-// @import "client/styles/components/layout"; 
+@import "client/styles/components/layout.scss"; 
 
 // Modules
 // @import "client/styles/components/module";
@@ -40,16 +42,17 @@
 @import "client/timer/timer.scss";
 @import "client/accounts/accounts.scss";
 @import "client/loading/loading.scss";
+@import "client/stats/stats.scss";
+@import "client/footer/footer.scss";
 
 
 // @import "client/styles/ie.scss";
 
 // State
-// @import "client/styles/components/state";
+@import "client/styles/components/state.scss";
 
 
 /*******************************************************
 // Print Styles
 *******************************************************/
 // @import "client/styles/print";
-@import "client/stats/stats.scss";

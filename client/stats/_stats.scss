@@ -1,0 +1,50 @@
+#lineChart{
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    // .x.axis path {
+    //   display: none;
+    // }
+
+    .line, .circle {
+      fill: none;
+      stroke: $primary-color;
+      stroke-width: 1.5px;
+    }
+
+    .circle {
+      fill: white;
+    }
+}
+
+.tooltip {
+  background: $primary-color; 
+  border: 0px;          
+  border-radius: 3px;
+  color: white;
+  display: table;
+  font: 12px sans-serif; 
+  height: 30px; 
+  padding: 2px;    
+  position: absolute; 
+  text-align: center;
+  width: 150px;  
+}
+
+/* Creates a small triangle extender for the tooltip */
+.tooltip:after {
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid $primary-color;
+  content: "";
+  display: block;
+  height: 0; 
+  left: 65px;
+  position: absolute;
+  top: 100%;
+  width: 0; 
+}

@@ -1,0 +1,14 @@
+<template name="footer">
+  {{#if loggedIn}}
+    <div class="footer">
+      <p>Made with ♥ by Jake</p>
+    </div>
+  {{/if}}
+  {{#if notLoggedIn}}
+    {{#if loginPath}}
+      <div class="footer">
+        <p>Made with ♥ by Jake</p>
+      </div>
+    {{/if}}
+  {{/if}}
+</template>

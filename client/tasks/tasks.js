@@ -7,9 +7,25 @@ Template.taskList.helpers({
   },
   selectedClass: function() { // Add selected class to current selected task
     var taskId = this._id;
-    var selectedTask = Session.get('selectedTask');
-    if(taskId == selectedTask) {
+    if(Session.equals('selectedTask', taskId)) {
       return 'selected';
+    }
+  },
+  notSelectedClass: function() { // Add selected class to current selected task
+    var taskId = this._id;
+    var selectedTask = Session.get('selectedTask');
+    return taskId !== selectedTask;
+  },
+  isStarted: function() {
+    return Session.get('isStarted');
+  },
+  playPauseClass: function() {
+    var taskId = this._id;
+    if(Session.equals('selectedTask', taskId)) {
+      return Session.get('playPauseClass');
+    } 
+    else {
+      return 'ion-ios-play-outline play';
     }
   }
 });
@@ -48,5 +64,34 @@ Template.taskList.events({
     });
 
     Meteor.call('completeTask', selectedTask, dateCompleted);
+  },
+  'click .play': function(event) {
+    Timer.isStarted = true;
+    Session.set('isStarted', Timer.isStarted);
+    Timer.isPaused = false;
+
+    if(Timer.interval) { // Prevents duplicate intervals that cause timer to speed up
+      Meteor.clearInterval(Timer.interval);
+    }
+    Session.set('playPauseClass', 'ion-ios-pause-outline pause');
+    Timer.interval = Meteor.setInterval(timeLeft, 1000);   
+  },
+  'click .pause': function(event) {
+    Timer.isPaused = true;
+
+    if(!Timer.onBreak) { // During a pomodoro, auto-add interuption on pause
+      var selectedTask = Session.get('selectedTask');
+      Meteor.call('modifyInteruptions', selectedTask, 1);
+    }
+    Meteor.clearInterval(Timer.interval);
+    Session.set('playPauseClass', 'ion-ios-play-outline play');
+  },
+  'click .reset': function(event) {
+    Timer.isStarted = false;
+    Session.set('isStarted', Timer.isStarted);
+    // Reset clock time, background color and play/pause button
+    Tracker.autorun(function() {
+      clockReset();
+    });
   }
 });

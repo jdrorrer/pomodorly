@@ -1,28 +1,48 @@
 <template name="taskList">
-  <h2 class="task-header">Task History</h2>
-  <ul>
-    {{#each task}}
-      <li class="task {{selectedClass}}">
-        <div class="timer-buttons">
-          <button class="icon {{playPauseClass}}"></button>
-          <button class="icon ion-ios-refresh-empty reset"></button>
-        </div>
-
-        <div class="task-name">
-          {{name}}: {{sessionsCompleted}}/{{sessions}}
-        </div>
-
-        {{#if selectedClass}}
-          <div class="task-options">
-            Interuptions: {{interuptions}}
-            <button class="icon ion-ios-plus-empty increment"></button>
-            <button class="icon ion-ios-minus-empty decrement"></button>
-            <button class="icon ion-ios-trash-outline delete"></button>
-            <button class="icon ion-ios-checkmark-empty complete"></button>
-            <br/>
+  <div class="task-list">
+    <div class="task-header">
+      <h2 class="task-title">Task History</h2>
+      <a href="{{pathFor 'stats'}}" class="statsLink">Productivity Stats</a>
+    </div>
+    <ul>
+      {{#each task}}
+        <li class="task {{selectedClass}}">
+          <div class="timer-buttons">
+            <button class="icon {{playPauseClass}}"></button>
+            <button class="icon ion-ios-refresh-empty reset"></button>
           </div>
-        {{/if}}
-      </li>
-    {{/each}}
-  </ul>
+
+          <div class="task-name">
+            {{#if selectedClass}}
+              {{name}}
+            {{/if}}
+            {{#if notSelectedClass}}
+              {{name}}: {{sessionsCompleted}}/{{sessions}}
+            {{/if}}
+          </div>
+
+          {{#if selectedClass}}
+            <br/>
+            <br/>
+            <div class="task-options">
+              <button class="icon ion-ios-checkmark-empty complete"></button>
+              <button class="icon ion-ios-trash-outline delete"></button>
+            </div>
+            <ul class="pomo-stats">
+              <br/>
+              <li>Pomodoros completed: {{sessionsCompleted}}</li>
+              <li>Estimated pomodoros: {{sessions}}</li>
+            </ul>
+            <br/>
+            <div class="interupt-options">
+              <button class="icon ion-ios-plus-empty increment"></button>
+              <button class="icon ion-ios-minus-empty decrement"></button>
+              <span class="interuptions">Interuptions: {{interuptions}}</span>
+              <br/>
+            </div>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>
 </template>

@@ -20,3 +20,6 @@ mrt:moment
 meteorhacks:aggregate
 meteorhacks:collection-utils
 mongo-livedata
+reactive-dict
+frozeman:reactive-timer
+aldeed:clock
