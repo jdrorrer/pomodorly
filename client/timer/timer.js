@@ -96,7 +96,7 @@ Meteor.startup(function() {
     if(Timer.isStarted && Session.get('secondsLeft') > 0) {
       Timer.now = new Date();
       var elapsedTime = (Timer.now.getTime() - Timer.before.getTime());
-    
+
       if(elapsedTime > Timer.delay) {
         Session.set('secondsLeft', Session.get('secondsLeft') - Math.floor(elapsedTime/Timer.delay));
       } else {
@@ -162,7 +162,6 @@ Meteor.startup(function() {
 // =======================
 Template.timer.helpers({
   time: function() {
-    console.log(Tracker.active + ' ' + Session.get('secondsLeft'));
     return Session.get('secondsLeft');
   },
   isStarted: function() {
