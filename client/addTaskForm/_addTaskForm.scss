@@ -2,48 +2,66 @@
   margin: 0;
   padding: 0;
   position: relative;
-  text-align: center;
   width: 100%;
   form {
     margin: 0;
     padding: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;  
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    @include respond-min(mid) {
+      -webkit-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+    }
   }
 }
 
-.txt-add-task {
-    font-family: $primary-fonts;
-    font-size: $font-size-base/1.25;
-    font-weight: $font-light;
-    margin-bottom: $font-size-base/2;
-    margin-left: 0;
-    margin-right: 0;
-    width: 38%;
+.add-task-inputs {
+  display: flex;
+  flex: 1 auto;
+  @include respond-min(mid) {
+    flex: 4 auto;
+  }
+  // width: 100%
+}
 
-    @include respond-min(wide) {
-      width: 30%;
-      margin-bottom: 0;
+.txt-add-task {
+  display: inline-blcok;
+  font-family: $primary-fonts;
+  font-size: $font-size-base/1.25;
+  font-weight: $font-light;
+  flex: 1 auto;
+  margin-bottom: $base-fs/2;
+
+  &.sessions {
+    margin-left: $base-fs/4;
+    @include respond-min(xs) {
+      margin-left: $base-fs/4;
     }
   }
+
+  @include respond-min(mid) {
+    margin-bottom: 0px;
+  }
+}
   
 .btn-add-task {
-    clear: both;
-    font-family: $primary-fonts;
-    font-size: $font-size-base/1.25;
-    font-weight: $font-light;
-    margin-top: -3px;
-    left: 0;
-    // position: absolute;
-    text-align: center;
-    width: 100%;
-    
-    @include respond-min(mid) {
-      left: 5%;
-      width: 90%;
-    }
+  font-family: $primary-fonts;
+  font-size: $font-size-base/1.25;
+  font-weight: $font-light;
+  margin-left: 0px;
+  margin-bottom: $font-size-base/1.5;
+  position: relative;
+  flex: 1 100%;
 
-    @include respond-min(wide) {
-      left: 70%;
-      top: 0;
-      width: 17.5%;
-    }
+  @include respond-min(mid) {
+    margin-bottom: 0px;
+    margin-left: $base-fs/4;
+    flex: 1 auto;
   }
+}

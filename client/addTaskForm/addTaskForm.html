@@ -1,8 +1,10 @@
 <template name="addTaskForm">
   <div class="add-task">
     <form>
-      <input type="text" name="taskName" class="txt-add-task name" placeholder="Enter task...">
-      <input type="text" name="numSessions" class="txt-add-task sessions" placeholder="Enter estimated pomodoros...">
+      <div class="add-task-inputs">
+        <input type="text" name="taskName" class="txt-add-task name" placeholder="Enter task...">
+        <input type="text" name="numSessions" class="txt-add-task sessions" placeholder="Enter estimate...">
+      </div>
       <input type="submit" name="addTask" class="btn-add-task" value="Add Task">
     </form>
   </div>
